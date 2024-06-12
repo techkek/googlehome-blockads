@@ -1,0 +1,30 @@
+alias: Block ads
+description: ""
+trigger:
+  - platform: state
+    entity_id:
+      - media_player.googlehome2092 #Enter the name of your device here
+    attribute: media_title
+    to: Advertisement #This is the default trigger of Advertisement on Spotify.
+condition: []
+action:
+  - service: media_player.volume_set
+    metadata: {}
+    data:
+      volume_level: 0
+    target:
+      entity_id: media_player.googlehome2092 #Enter the name of your device here
+  - wait_for_trigger:
+      - platform: state
+        entity_id:
+          - media_player.googlehome2092 #Enter the name of your device here
+        attribute: media_title
+        from: Advertisement #This is the default trigger of Advertisement on Spotify.
+    continue_on_timeout: false
+  - service: media_player.volume_set
+    metadata: {}
+    data:
+      volume_level: 0.2 #This is 20% of the volume.
+    target:
+      entity_id: media_player.googlehome2092 #Enter the name of your device here
+mode: single
